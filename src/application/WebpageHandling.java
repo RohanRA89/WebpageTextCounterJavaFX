@@ -29,19 +29,66 @@ public class WebpageHandling {
 			super();
 			this.webAddress = webAddress;
 		}
-
+		/**
+		 * @param websiteLink 
+		 * used in Main method. Upon creation of WebpageHandling object the private String webAddress is called here
+		 * 
+		 * @param headings 
+		 * gathers all HTML lines that are encapsulated in h3 tags
+		 * 
+		 * @param allHeadingsText 
+		 * converts headings to a string without h3 tag encapsulation
+		 * 
+		 * @param allLowerCaseHeadingsText
+		 * converts allHeadingsText words to all lower case letters.
+		 * 
+		 * @param delimitedHeadingsText 
+		 * separates string value allLowerCaseHeadingsText using regex "[\\n|\\s+|.|,|:] stores as Array"
+		 * 
+		 * @param convertedHeadingArrayList
+		 * converts delimitedHeadingsText to ArrayList to merge for word count.
+		 * @param boldedNames 
+		 * gathers all HTML lines that are encapsulated in b tags
+		 * 
+		 * @param allBoldedText 
+		 * converts boldedNames to a string without b tag encapsulation
+		 * 
+		 * @param allLowerCaseBoldText
+		 * converts allBoldedText words to all lower case letters.
+		 * 
+		 * @param delimtedBoldedText 
+		 * separates string value allLowerCaseBoldText using regex "[\\n|\\s+|.|,|:] to store as an Array"
+		 * 
+		 * @param convertedBoldArrayList
+		 * converts delimtedBoldedText to ArrayList to merge for word count.
+ 		 * @param spokenLines 
+		 * gathers all HTML lines that are encapsulated in a[name] tags
+		 * 
+		 * @param allSpokenText 
+		 * converts spokenLines to a string without b tag encapsulation
+		 * 
+		 * @param allLowerCaseSpokenText
+		 * converts allSpokenText words to all lower case letters.
+		 * 
+		 * @param delimitedSpokenText 
+		 * separates string value allLowerCaseSpokenText using regex "[\\n|\\s+|.|,|:] to store as an Array"
+		 * 
+		 * @param convertedSpokenArrayList
+		 * converts delimitedSpokenText to ArrayList to merge for word count.
+		 * 
+		 * @param mergedList 
+		 * Combines all previous ArrayLists for word count 
+		 * 
+		 * @return 
+		 * Sorted string output formated in viewResults TextArea for GUI use in Main Application
+		 */
 		public String scrapeWebpage(String websiteLink) {
 			Document doc = null;
 			
 			try {
 				//Decided to try and use the Jsoup library/jar to try and run this program.
 				doc = Jsoup.connect(websiteLink).get();
-				
-				/* Removing the following String manipulation from the sections below will separate the list in to upper and lowercase if needed.
-				String allLowerCaseHeadingsText = allHeadingsText.toLowerCase();
-				String allLowerCaseBoldText = allBoldedText.toLowerCase();
-				String allLowerCaseSpokenText = allSpokenText.toLowerCase();
-				*/
+
 				
 				//begin extract text
 				Elements headings = doc.select("h3");
@@ -50,12 +97,14 @@ public class WebpageHandling {
 				String[] delimitedHeadingsText = allLowerCaseHeadingsText.trim().split("[\\n|\\s+|.|,|:]");
 				List<String> convertedHeadingArrayList = Arrays.asList(delimitedHeadingsText);
 				
+	
 				Elements boldedNames = doc.select("b");
 				String allBoldedText = boldedNames.text();
 				String allLowerCaseBoldText = allBoldedText.toLowerCase();
 				String[] delimtedBoldedText = allLowerCaseBoldText.trim().split("[\\n|\\s+|.|,|:]");
 				List<String> convertedBoldArrayList = Arrays.asList(delimtedBoldedText);
 				
+
 				Elements spokenLines = doc.select("a[name]");
 				String allSpokenText = spokenLines.text();
 				String allLowerCaseSpokenText = allSpokenText.toLowerCase();
@@ -63,6 +112,7 @@ public class WebpageHandling {
 				List<String> convertedSpokenArrayList = Arrays.asList(delimitedSpokenText);
 				//end extract text
 				
+
 				//merge all lists
 				List<String> mergedList = new ArrayList<>(convertedHeadingArrayList);
 				mergedList.addAll(convertedBoldArrayList);
@@ -73,12 +123,9 @@ public class WebpageHandling {
 											.collect(Collectors.groupingBy(element -> element,
 											Collectors.counting()));
 				
-				  //System.out.println("Word Frequencies");
+				  
 			        sortedMapAsc = sortByValue(wordCount, DESCENDING);
-			        //printMap(sortedMapAsc);
-			        
-			        //Map as String
-			        //System.out.println("Map as String Method");
+
 			        
 			        
 				
@@ -106,12 +153,6 @@ public class WebpageHandling {
 
 	    }
 		
-		//Print to console method
-	    /*private static void printMap(Map<String, Long> map)
-	    {
-	        map.forEach((key, value) -> System.out.println(key + " = " + value));
-	    }
-		*/
 	    public static String convertWithIteration(Map<String, ?> map) {
 	        StringBuilder mapAsString = new StringBuilder("");
 	        for (String key : map.keySet()) {

@@ -12,7 +12,18 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-
+/**
+ * @author Rohan Ayub
+ * @build 3.0
+ * 
+ * Gathering Strings using HTML tags from a web page.
+ * Using JSoup we can extract HTML elements by their tag.
+ * 
+ * HTML tags/elements are specific as I did an inspect element on the Webpage for the project
+ * //http://shakespeare.mit.edu/macbeth/full.html. 
+ * 
+ * Can be changed to check for other HTML elements in WebHandling class.
+ */
 //http://shakespeare.mit.edu/macbeth/full.html
 public class Main extends Application {
 	//creation of fields outside of primary stage so other methods can access them.
