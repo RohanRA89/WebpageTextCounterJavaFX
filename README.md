@@ -13,6 +13,9 @@ First Commit/Build
   Fourth Build
   - Added JavaDoc notation for WebpageHandling class. *specifically scrapeWebPage(String webAddress) method.
   
+  Fifth Build
+  -added Database storage of results of website scrape. Tried to deploy to a jar with client/server capabilites but that build was unsuccessful.
+  
   Future Builds
   - Implement clear all button for the label or add better conditional statments for all possible interaction cases.
   - Check on testing issues. Unsure why the testing suite isn't getting access to them in the testing package.
