@@ -1,6 +1,10 @@
 package application;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
@@ -125,6 +129,12 @@ public class WebpageHandling {
 				
 				  
 			        sortedMapAsc = sortByValue(wordCount, DESCENDING);
+			        try {
+			        createTable();
+			        post(sortedMapAsc);
+			        }catch(Exception e) {
+			        	System.out.println(e);
+			        }
 
 			        
 			        
@@ -161,4 +171,57 @@ public class WebpageHandling {
 	        mapAsString.delete(mapAsString.length()-2, mapAsString.length()).append("");
 	        return mapAsString.toString();
 	    }
+	    
+	    
+		public static void post(Map<String,Long> sortedList) throws Exception{
+			try {
+				Connection conn = getConnection();
+				sortedList.forEach((k, v) -> {
+					try {
+					PreparedStatement posted = conn.prepareStatement("INSERT INTO wordoccurences(word,frequency) VALUES (?,?)");
+					posted.setString(1, k);
+					posted.setLong(2, v);
+					posted.executeUpdate();
+					}catch(Exception e) {
+						System.out.println(e);
+						System.out.println("Insert Section Failed");
+					}
+				});	
+			}catch(Exception e) {
+				System.out.println(e);
+			}finally {
+				System.out.println("Insert Section Completed");
+			}
+		}
+	    
+		public static void createTable() throws Exception{
+			try {
+				Connection conn = getConnection();
+				PreparedStatement create = conn.prepareStatement("CREATE TABLE IF NOT EXISTS wordoccurences(id int NOT NULL AUTO_INCREMENT, word VARCHAR(255), frequency INTEGER, PRIMARY KEY(id))");
+				create.executeUpdate();
+			}catch(Exception e) {
+				System.out.println(e);
+			}finally {
+				System.out.println("Table creation command over");
+			}
+		}
+	    
+		public static Connection getConnection() throws Exception{
+			try {
+				String driver = "com.mysql.cj.jdbc.Driver";
+				String url = "jdbc:mysql://localhost:3306/testdb";
+				String username ="testuser";
+				String password = "password";
+				Class.forName(driver);
+				
+				Connection conn = DriverManager.getConnection(url,username,password);
+				System.out.println("Connection Successful");
+				return conn;
+			}catch(Exception e) {
+				System.out.print(e);
+			}
+			
+			return null;
+		}
+
 }

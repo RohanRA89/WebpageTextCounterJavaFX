@@ -111,6 +111,11 @@ public class Main extends Application {
 						mainPane.getChildren().remove(resultOfSubmitButton);
 						WebpageHandling websiteToScrape = new WebpageHandling(webAddressEntry.getText());
 						viewResults = new TextArea();
+						/*
+						 * Code not displaying properly when receiving data from server.
+						 * Working on a formatting fix.
+						 */
+						//viewResults.setText(websiteToScrape.get());
 						viewResults.setText(websiteToScrape.scrapeWebpage(websiteToScrape.getWebAddress()));
 						mainPane.add(viewResults, 0, 2);
 					}
